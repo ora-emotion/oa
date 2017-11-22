@@ -1,0 +1,52 @@
+/*
+ * ora.css
+ * Ora namespace styles
+ * 样式预设
+*/
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Microsoft YaHei";
+}
+
+body {
+  overflow: hidden;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+::-webkit-input-placeholder {
+  color: #919191;
+}
+::-moz-placeholder {
+  color: #919191;
+}
+::-ms-input-placeholder {
+  color: #919191;
+}
+
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
