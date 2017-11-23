@@ -27,6 +27,8 @@ var register = (function () {
 
     jqueryMap = {
       $register : $register,
+      $mark     : $register.find('.ora-register-main-mark'),
+      $username : $register.find('.ora-register-main-username'),
       $birthday : $register.find('.ora-register-main-birthday')
     };
   };
@@ -35,22 +37,56 @@ var register = (function () {
   // des   :
   //   * 验证员工编号
   //   * 用户编号只能为数字
+  // return :
+  //   * true  - 用户编号为 number 类型，可提交
+  //   * false - 用户编号为 NaN 类型，不可提交
   //
-  checkusermark = function () {};
+  checkusermark = function () {
+    var $mark, mark_val;
+    $mark = jqueryMap.$mark;
+    mark_val = $mark.find('input').val();
+
+    if (!parseInt(mark_val, 10)) {
+      return false;
+    }
+
+    return true;
+  };
   // End : checkusermark()
 
   // Start : checkusername()
   // des   :
   //   * 验证用户名
+  //   * 首字符不能为数字
   //   * 只能为英文或数字
   //   * 最少 6 字符，最多 12 字符
+  // return :
+  //   * true  - 符合规则，可提交
+  //   * false - 不符合规则，不可提交
   //
-  checkusername = function () {};
+  checkusername = function () {
+    var $username, username_val, i;
+    $username = jqueryMap.$username;
+    username_val = $username.find('input').val();
+
+    if (username_val.length < 6 || username_val.length > 12) {
+      return false;
+    }
+
+    for (i = 0; i < username_val.length; i++) {
+      if ( !(/\w/.test(username_val[i]) && /[^0-9]/.test(username_val)) ) {
+        return false;
+      }
+    }
+
+    return true;
+  };
   // End : checkusername()
 
   // Start : checkpassword()
   // des   :
   //   * 验证密码
+  //   * 首字符不能为数字
   //   * 不包含空格且首尾不能为空格（不能包含空格）
   //   * 最少 8 字符，最多 16 字符
   //
@@ -104,6 +140,7 @@ var register = (function () {
   // des   :
   //
   checkinfo = function () {
+    checkusermark();
     checkusername();
     checkpassword();
   };
