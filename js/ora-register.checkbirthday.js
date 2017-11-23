@@ -14,7 +14,13 @@
 register.checkbirthday = (function () {
   var
     configMap = {},
-    stateMap = { $birthday : null },
+    stateMap = {
+      $birthday : null,
+      birthday_map : {
+        year  : null,
+        month : null
+      }
+    },
     jqueryMap = {},
 
     setJqueryMap, checkLeapYear, checkBirthday,
@@ -82,48 +88,55 @@ register.checkbirthday = (function () {
     $year_item   = $birthday.find('.year-item');
     $month_item  = $birthday.find('.ora-register-main-birthday-month-item span');
 
-    createDays = function () {
-      var i, main_html, is_leap_year;
+    createDays = function (birthday_map) {
+      var key_name, i, main_html, is_leap_year, days_31, days_30, days_29, days_28, otherMonth;
       is_leap_year = checkLeapYear();
 
-      // 1 3 5 7 8 10 12 月份的天数
-      if ( /[1|3|5|7|8|10|12]/.test(parseInt(month_text, 10)) ) {
-        $day_group.children('span').remove();
-        for (i = 1; i <= 31; i++) {
-          main_html = String() + '<span>' + i + '</span>';
-          $day_group.append(main_html);
-        }
-      }
+      days_31 = /0[13578]|1[02]/.test(month_text);
+      days_30 = /0[469]|11/.test(month_text);
+      days_29 = is_leap_yeap;
+      days_28 = !is_leap_yeap;
 
-      // 4 6 9 11 月份的天数
-      if ( /[4|6|9|11]/.test(parseInt(month_text, 10)) ) {
-        $day_group.children('span').remove();
-        for (i = 1; i <= 30; i++) {
-          main_html = String() + '<span>' + i + '</span>';
-          $day_group.append(main_html);
+      otherMonth = function () {
+        if ( /0[13578]|1[02]/.test(month_text) ) {
+          $day_group.children('span').remove();
+          for (i = 1; i <= 31; i++) {
+            main_html = String() + '<span>' + i + '</span>';
+            $day_group.append(main_html);
+          }
         }
-      }
 
-      // 闰年 2 月份的天数
-      if (is_leap_year) {
-        if (parseInt(month_text, 10) === 2) {
+        if ( /0[469]|11/.test(month_text) ) {
+          $day_group.children('span').remove();
+          for (i = 1; i <= 30; i++) {
+            main_html = String() + '<span>' + i + '</span>';
+            $day_group.append(main_html);
+          }
+        }
+      };
+
+      if (is_leap_yeap) {
+        if ( month_text === '02' ) {
           $day_group.children('span').remove();
           for (i = 1; i <= 29; i++) {
             main_html = String() + '<span>' + i + '</span>';
             $day_group.append(main_html);
           }
         }
+
+        otherMonth();
       } else {
-        if (parseInt(month_text, 10) === 2) {
+        if ( month_text === '02' ) {
           $day_group.children('span').remove();
           for (i = 1; i <= 28; i++) {
             main_html = String() + '<span>' + i + '</span>';
             $day_group.append(main_html);
           }
         }
+
+        otherMonth();
       }
 
-      return false;
     };
 
     checkYear = function (arg) {
@@ -131,8 +144,8 @@ register.checkbirthday = (function () {
 
       year_text    = parseInt($year.text(), 10);
       month_text   = parseInt($month.text(), 10);
-      $chose_year  = jqueryMap.$birthday.find('.ora-register-main-tip-birthday-year');
-      $chose_month = jqueryMap.$birthday.find('.ora-register-main-tip-birthday-month');
+      $chose_year  = $('.ora-register-main-tip-birthday-year');
+      $chose_month = $('.ora-register-main-tip-birthday-month');
 
       if ( arg === $($year)[0] ) {
         showYear();
@@ -228,27 +241,25 @@ register.checkbirthday = (function () {
 
     choseYear = function () {
       $year_item.click(function () {
-        var is_leap_yeap = checkLeapYear();
+        $day.text('日');
 
-        // 判断年份是否更新
-        if (!is_leap_yeap && parseInt(day_text, 10) === 29 ) {
-          $day.text(28);
-        }
         year_text = $(this).text();
         $year.text(year_text);
+
+        stateMap.birthday_map.year = parseInt(year_text, 10);
+        createDays(stateMap.birthday_map);
       });
     };
 
     choseMonth = function () {
       $month_item.click(function () {
-        // 判断月份是否更新
-        if (/[4|6|9|11]/.test(parseInt(month_text, 10)) && parseInt(day_text, 10) === 31) {
-          $day.text(30);
-        }
+        $day.text('日');
 
         month_text = $(this).text();
         $month.text(month_text);
-        createDays();
+
+        stateMap.birthday_map.month = parseInt(month_text, 10);
+        createDays(stateMap.birthday_map);
       });
     };
 
@@ -294,12 +305,6 @@ register.checkbirthday = (function () {
           break;
       }
 
-      // stateMap.birthday_map = {
-      //   year_text  : year_text,
-      //   month_text : month_text,
-      //   day_text   : day_text
-      // };
-      //
       // 格式化生日
       dateFormat();
     });
