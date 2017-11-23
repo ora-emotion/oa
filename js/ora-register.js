@@ -31,7 +31,8 @@ var register = (function () {
       $password   : $register.find('.ora-register-main-password'),
       $confirmpwd : $register.find('.ora-register-main-confirmpwd'),
       $birthday   : $register.find('.ora-register-main-birthday'),
-      $phone      : $register.find('.ora-register-main-phone')
+      $phone      : $register.find('.ora-register-main-phone'),
+      $idnum      : $register.find('.ora-register-main-idnum')
     };
   };
 
@@ -192,15 +193,27 @@ var register = (function () {
   //   * 验证身份证号码
   //   * 最短 17 位，最多 18 位，最后一位数字或 X
   //
-  checkidnum = function () {};
+  checkidnum = function () {
+    var
+      $idnum, $idnum_tip, idnum_val;
+
+    $idnum     = jqueryMap.$idnum;
+    $idnum_tip = $('.ora-register-main-tip-idnum');
+    idnum_val  = $idnum.find('input').val();
+
+    $idnum.find('input').blur(function () {
+      // 判断身份证号长度 - 18 位
+      if ( ! /^[0-9][\d|X]{17}$/.test(idnum_val) ) {
+        $idnum_tip.addClass('active');
+        return false;
+      } else {
+        $idnum_tip.removeClass('active');
+      }
+    });
+
+    return true;
+  };
   // End : checkidnum()
-
-  // Start : checkanswer()
-  // des   : 验证密保答案
-  //
-  checkquestion = function () {};
-  // End : checkanswer()
-
 
   // Start : checkinfo()
   // des   :
@@ -210,6 +223,7 @@ var register = (function () {
     checkusername();
     checkpassword();
     checkphonenum();
+    checkidnum();
   };
   // End : checkinfo()
 
