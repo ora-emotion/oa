@@ -233,6 +233,9 @@
           <div class="ora-register-main-tip-confirmpwd">
             <span>您输入的密码不匹配</span>
           </div>
+          <div class="ora-register-main-tip-phone">
+            <span>请输入有效的手机号码</span>
+          </div>
         </div>
       </div>
     </div>

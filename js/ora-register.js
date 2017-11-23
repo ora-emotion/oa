@@ -18,9 +18,8 @@ var register = (function () {
     jqueryMap = {},
 
     setJqueryMap,  checkLeapYear,
-    checkusermark, checkusername, checkpassword, checkname,   checkphonenum,
-    checkwechat,   checkidnum,    checkquestion, checkanswer, checkbirthday,
-    checkinfo,     onClick, initModule;
+    checkusermark, checkusername, checkpassword, checkphonenum,
+    checkidnum,    checkbirthday, checkinfo,     onClick,     initModule;
 
   setJqueryMap = function () {
     var $register = stateMap.$register;
@@ -31,7 +30,8 @@ var register = (function () {
       $username   : $register.find('.ora-register-main-username'),
       $password   : $register.find('.ora-register-main-password'),
       $confirmpwd : $register.find('.ora-register-main-confirmpwd'),
-      $birthday   : $register.find('.ora-register-main-birthday')
+      $birthday   : $register.find('.ora-register-main-birthday'),
+      $phone      : $register.find('.ora-register-main-phone')
     };
   };
 
@@ -91,6 +91,9 @@ var register = (function () {
   //   * 首字符不能为数字
   //   * 不包含空格且首尾不能为空格（不能包含空格）
   //   * 最少 8 字符，最多 16 字符
+  // return :
+  //   * true  - 符合规则，可提交
+  //   * false - 不符合规则，不可提交
   //
   checkpassword = function () {
     var
@@ -155,20 +158,33 @@ var register = (function () {
   };
   // End : checkpassword()
 
-  // Start : checkname
-  // des   :
-  //   * 验证姓名
-  //   * 英文字符或汉字
-  //
-  checkname = function () {};
-  // End : checkname()
-
   // Start : checkphonenum()
   // des   :
   //   * 验证电话号码
   //   * 11 位，纯数字
+  // return :
+  //   * true  - 符合规则，可提交
+  //   * false - 不符合规则，不可提交
   //
-  checkphonenum = function () {};
+  checkphonenum = function () {
+    var $phone, $phone_tip, phone_val;
+
+    $phone     = jqueryMap.$phone;
+    $phone_tip = $('.ora-register-main-tip-phone');
+    phone_val  = $phone.find('input').val();
+
+    // 验证手机号码号段及长度
+    $phone.find('input').blur(function (){
+      if ( ! /^1[34578][0-9]\d{4,8}$/.test(phone_val) ) {
+        $phone_tip.addClass('active');
+        return false;
+      } else {
+        $phone_tip.removeClass('active');
+      }
+    });
+
+    return true;
+  };
   // End : checkphonenum()
 
   // Start : checkidnum()
@@ -178,18 +194,6 @@ var register = (function () {
   //
   checkidnum = function () {};
   // End : checkidnum()
-
-  // Start : checkquestion()
-  // des   : 验证密保问题
-  //
-  checkquestion = function () {};
-  // End : checkquestion()
-
-  // Start : checkanswer()
-  // des   : 验证密保答案
-  //
-  checkanswer = function () {};
-  // End : checkanswer()
 
   // Start : checkanswer()
   // des   : 验证密保答案
@@ -205,6 +209,7 @@ var register = (function () {
     checkusermark();
     checkusername();
     checkpassword();
+    checkphonenum();
   };
   // End : checkinfo()
 
