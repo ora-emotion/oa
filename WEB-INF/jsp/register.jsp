@@ -225,6 +225,11 @@
         <div class="ora-register-main-tip">
           <span class="ora-register-main-tip-birthday-year">请选择年份!</span>
           <span class="ora-register-main-tip-birthday-month">请选择月份!</span>
+          <div class="ora-register-main-tip-checkpassword">
+            <span class="password-min-length">密码长度大于 8 位</span>
+            <span class="password-max-length">密码长度小于 16 位</span>
+            <span class="password-no-space">密码不包含空格</span>
+          </div>
         </div>
       </div>
     </div>

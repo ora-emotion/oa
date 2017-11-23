@@ -29,6 +29,7 @@ var register = (function () {
       $register : $register,
       $mark     : $register.find('.ora-register-main-mark'),
       $username : $register.find('.ora-register-main-username'),
+      $password : $register.find('.ora-register-main-password'),
       $birthday : $register.find('.ora-register-main-birthday')
     };
   };
@@ -74,7 +75,7 @@ var register = (function () {
     }
 
     for (i = 0; i < username_val.length; i++) {
-      if ( !(/\w/.test(username_val[i]) && /[^0-9]/.test(username_val)) ) {
+      if ( !(/\w/.test(username_val[i]) && /[^0-9]/.test(username_val[0])) ) {
         return false;
       }
     }
@@ -90,7 +91,52 @@ var register = (function () {
   //   * 不包含空格且首尾不能为空格（不能包含空格）
   //   * 最少 8 字符，最多 16 字符
   //
-  checkpassword = function () {};
+  checkpassword = function () {
+    var $password, $password_tip, password_val, i;
+    $password = jqueryMap.$password;
+    $password_tip = $('.ora-register-main-tip-checkpassword');
+    password_val = $password.find('input').val();
+
+    // 显示验证密码提示信息
+    $password.find('input').focus(function () {
+      $password_tip.addClass('active');
+      $password_tip.animate({ opacity : 1 }, 300);
+    });
+    // 隐藏验证密码提示信息
+    $password.find('input').blur(function () {
+      $password_tip.removeClass('active');
+      $password_tip.css({ opacity : 0 });
+    });
+
+    for (i = 0; i < password_val.length; i++) {
+      // 密码不能包含空格
+      if ( /\s/.test(password_val.charAt(i)) ) {
+        $('.password-no-space').removeClass('pass');
+        return false;
+      } else {
+        $('.ora-register-main-tip-checkpassword .password-no-space')
+          .addClass('pass');
+      }
+    }
+
+    // 验证密码最大长度
+    if (password_val.length > 16) {
+      $('.password-max-length').removeClass('pass');
+      return false;
+    } else {
+      $('.password-max-length').addClass('pass');
+    }
+
+    // 验证密码最小长度
+    if (password_val.length < 8) {
+      $('.password-min-length').removeClass('pass');
+      return false;
+    } else {
+      $('.password-min-length').addClass('pass');
+    }
+
+    return true;
+  };
   // End : checkpassword()
 
   // Start : checkname
