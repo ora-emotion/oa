@@ -19,7 +19,7 @@ var register = (function () {
 
     setJqueryMap,  checkLeapYear,
     checkusermark, checkusername, checkpassword, checkphonenum,
-    checkidnum,    checkbirthday, checkinfo,     onClick,     initModule;
+    checkidnum,    checkbirthday, checkquestion, checkinfo,     onClick,     initModule;
 
   setJqueryMap = function () {
     var $register = stateMap.$register;
@@ -32,7 +32,9 @@ var register = (function () {
       $confirmpwd : $register.find('.ora-register-main-confirmpwd'),
       $birthday   : $register.find('.ora-register-main-birthday'),
       $phone      : $register.find('.ora-register-main-phone'),
-      $idnum      : $register.find('.ora-register-main-idnum')
+      $idnum      : $register.find('.ora-register-main-idnum'),
+      $question   : $register.find('.ora-register-main-question'),
+      $submit     : $register.find('.ora-register-main-submit')
     };
   };
 
@@ -215,6 +217,33 @@ var register = (function () {
   };
   // End : checkidnum()
 
+  // Start : checkquestion()
+  // des   : 验证密保答案
+  // return :
+  //   * true  - 符合规则，可提交
+  //   * false - 不符合规则，不可提交
+  //
+  checkquestion = function () {
+    var $question, $question_tip, question_val;
+
+    $question     = jqueryMap.$question;
+    $question_tip = $('.ora-register-main-tip-question');
+    question_val  = $question.find('input').val();
+
+    // 密保答案不能为空
+    $question.find('input').blur(function () {
+      if ( question_val == ''  || question_val == null ) {
+        $('.ora-register-main-tip-question').addClass('active');
+        return false;
+      } else {
+        $('.ora-register-main-tip-question').removeClass('active');
+      }
+    });
+
+    return true;
+  };
+  // End : checkquestion()
+
   // Start : checkinfo()
   // des   :
   //
@@ -224,6 +253,18 @@ var register = (function () {
     checkpassword();
     checkphonenum();
     checkidnum();
+    checkquestion();
+
+    // 提交信息
+    jqueryMap.$submit.find('button').click(function () {
+      if ( !(checkusermark() && checkUsername() && checkpassword() &&
+        checkphonenum() && checkidnum() && checkquestion())
+      ) {
+        return false;
+      }
+    });
+
+    return true;
   };
   // End : checkinfo()
 

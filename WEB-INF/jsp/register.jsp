@@ -239,6 +239,9 @@
           <div class="ora-register-main-tip-idnum">
             <span>请输入有效身份证号嘛</span>
           </div>
+          <div class="ora-register-main-tip-question">
+            <span>密保答案不能为空</span>
+          </div>
         </div>
       </div>
     </div>

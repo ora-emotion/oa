@@ -408,4 +408,27 @@
     margin: 0;
   }
   /* End : 验证身份证号码提示信息 */
+
+  /* Start : 验证密保答案提示信息 */
+  .ora-register-main-tip-question {
+    display: none;
+  }
+  .ora-register-main-tip-question.active {
+    display: block;
+    position: absolute;
+    top: 610px;
+    left: 124px;
+    width: 278px;
+    padding: 5px 10px;
+    background: #fff;
+    border: 1px solid #fca12f;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px #ffc479;
+  }
+  .ora-register-main-tip-question span {
+    font-size: 12px;
+    color: #fd3232;
+    margin: 0;
+  }
+  /* End : 验证密保答案提示信息 */
 /* End : 提示信息 */
