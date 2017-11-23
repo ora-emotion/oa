@@ -260,10 +260,12 @@ var register = (function () {
       if ( !(checkusermark() && checkUsername() && checkpassword() &&
         checkphonenum() && checkidnum() && checkquestion())
       ) {
+        $('.ora-register-main-tip-submit').addClass('active');
         return false;
       }
     });
 
+    $('.ora-register-main-tip-submit').removeClass('active');
     return true;
   };
   // End : checkinfo()
@@ -279,7 +281,7 @@ var register = (function () {
     setJqueryMap();
 
     // 验证出生年月模块
-    register.checkbirthday.initModule( jqueryMap.$birthday );
+    register.checkbirthday.initModule( jqueryMap.$register, jqueryMap.$birthday );
 
     checkinfo();
     onClick();

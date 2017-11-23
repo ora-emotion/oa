@@ -139,6 +139,7 @@
     position: absolute;
     top: 41px;
     left: 0;
+    z-index: 1;
   }
   .ora-register-main-birthday-year div {
     padding: 2px 0;
@@ -431,4 +432,24 @@
     margin: 0;
   }
   /* End : 验证密保答案提示信息 */
+
+  /* Start : 提交时的验证信息 */
+  .ora-register-main-tip-submit {
+    display: none;
+  }
+  .ora-register-main-tip-submit.active {
+    display: block;
+    position: absolute;
+    top: 628px;
+    left: 90px;
+    width: 320px;
+    padding: 5px 6px;
+  }
+  .ora-register-main-tip-submit span {
+    font-size: 14px;
+    color: #fd3232;
+    margin: 0;
+    width: 100%;
+  }
+  /* End : 提交时的验证信息 */
 /* End : 提示信息 */

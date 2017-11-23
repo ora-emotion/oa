@@ -242,6 +242,9 @@
           <div class="ora-register-main-tip-question">
             <span>密保答案不能为空</span>
           </div>
+          <div class="ora-register-main-tip-submit">
+            <span class="text-center">请完善用户信息</span>
+          </div>
         </div>
       </div>
     </div>

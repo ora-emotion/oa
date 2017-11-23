@@ -15,6 +15,7 @@ register.checkbirthday = (function () {
   var
     configMap = {},
     stateMap = {
+      $register : null,
       $birthday : null,
       birthday_map : {
         year  : null,
@@ -27,9 +28,12 @@ register.checkbirthday = (function () {
     onClick,      dateFormat,    initModule;
 
   setJqueryMap = function () {
-    var $birthday = stateMap.$birthday;
+    var
+      $register = stateMap.$register;
+      $birthday = stateMap.$birthday;
 
     jqueryMap = {
+      $register    : $register,
       $birthday    : $birthday,
       $year        : $birthday.find('.ora-register-main-birthday-choice-year'),
       $month       : $birthday.find('.ora-register-main-birthday-choice-month'),
@@ -68,7 +72,7 @@ register.checkbirthday = (function () {
   checkBirthday = function () {
     var
       birthday_map = stateMap.birthday_map,
-      $birthday,
+      $register,   $birthday,
       $year,       $month,       $day,
       $year_group, $month_group, $day_group,
       $year_item,  $month_item,  $day_item,
@@ -78,6 +82,7 @@ register.checkbirthday = (function () {
       checkYear,   createDays,   choseYear,
       choseMonth,  choseDay;
 
+    $register    = jqueryMap.$register;
     $birthday    = jqueryMap.$birthday;
     $year        = jqueryMap.$year;
     $month       = jqueryMap.$month;
@@ -281,7 +286,7 @@ register.checkbirthday = (function () {
       });
     };
 
-    $birthday.click(function (event) {
+    $register.click(function (event) {
       var target;
 
       event = event || window.event;
@@ -346,7 +351,8 @@ register.checkbirthday = (function () {
   };
   // End : dateFormat()
 
-  initModule = function ($birthday) {
+  initModule = function ($register, $birthday) {
+    stateMap.$register = $register;
     stateMap.$birthday = $birthday;
     setJqueryMap();
 
