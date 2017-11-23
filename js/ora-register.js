@@ -26,11 +26,12 @@ var register = (function () {
     var $register = stateMap.$register;
 
     jqueryMap = {
-      $register : $register,
-      $mark     : $register.find('.ora-register-main-mark'),
-      $username : $register.find('.ora-register-main-username'),
-      $password : $register.find('.ora-register-main-password'),
-      $birthday : $register.find('.ora-register-main-birthday')
+      $register   : $register,
+      $mark       : $register.find('.ora-register-main-mark'),
+      $username   : $register.find('.ora-register-main-username'),
+      $password   : $register.find('.ora-register-main-password'),
+      $confirmpwd : $register.find('.ora-register-main-confirmpwd'),
+      $birthday   : $register.find('.ora-register-main-birthday')
     };
   };
 
@@ -92,20 +93,25 @@ var register = (function () {
   //   * 最少 8 字符，最多 16 字符
   //
   checkpassword = function () {
-    var $password, $password_tip, password_val, i;
-    $password = jqueryMap.$password;
-    $password_tip = $('.ora-register-main-tip-checkpassword');
-    password_val = $password.find('input').val();
+    var
+      $password,    $password_tip,  $confirmpwd, $confirmpwd_tip,
+      password_val, confirmpwd_val, i;
+
+    $password       = jqueryMap.$password;
+    $confirmpwd     = jqueryMap.$confirmpwd;
+    $password_tip   = $('.ora-register-main-tip-checkpassword');
+    $confirmpwd_tip = $('.ora-register-main-tip-confirmpwd');
+    password_val    = $password.find('input').val();
+    confirmpwd_val  = $confirmpwd.find('input').val();
+
 
     // 显示验证密码提示信息
     $password.find('input').focus(function () {
       $password_tip.addClass('active');
-      $password_tip.animate({ opacity : 1 }, 300);
     });
     // 隐藏验证密码提示信息
     $password.find('input').blur(function () {
       $password_tip.removeClass('active');
-      $password_tip.css({ opacity : 0 });
     });
 
     for (i = 0; i < password_val.length; i++) {
@@ -134,6 +140,16 @@ var register = (function () {
     } else {
       $('.password-min-length').addClass('pass');
     }
+
+    // 确认密码
+    $confirmpwd.find('input').blur(function () {
+      if (password_val !== confirmpwd_val) {
+        $confirmpwd_tip.addClass('active');
+        return false;
+      } else {
+        $confirmpwd_tip.removeClass('active');
+      }
+    });
 
     return true;
   };

@@ -230,6 +230,9 @@
             <span class="password-max-length">密码长度小于 16 位</span>
             <span class="password-no-space">密码不包含空格</span>
           </div>
+          <div class="ora-register-main-tip-confirmpwd">
+            <span>您输入的密码不匹配</span>
+          </div>
         </div>
       </div>
     </div>
