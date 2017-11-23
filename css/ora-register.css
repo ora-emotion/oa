@@ -281,3 +281,32 @@
   font-weight: bold;
 }
 /* End : 立即登陆 */
+
+/* Start : 提示信息 */
+.ora-register-main-tip {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+  /* Start : 选择年份 */
+  span.ora-register-main-tip-birthday-year,
+  span.ora-register-main-tip-birthday-month {
+    font-size: 12px;
+    color: #f53333;
+    position: absolute;
+    top: 310px;
+    left: 0;
+    display: none;
+  }
+  .ora-register-main-tip-birthday-year.birthday-month {
+    display: inline-block;
+    left: 242px;
+  }
+  .ora-register-main-tip-birthday-year.birthday-day,
+  .ora-register-main-tip-birthday-month.birthday-day {
+    display: inline-block;
+    left: 348px;
+  }
+  /* End : 选择年份 */
+/* End : 提示信息 */

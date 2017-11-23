@@ -5,8 +5,8 @@
     <title>用户登陆 | 橘子情感</title>
 
     <!-- import our stylesheet -->
-    <link rel="stylesheet" href="css/ora.css">
-    <link rel="stylesheet" href="css/ora-login.css">
+    <link rel="stylesheet" href="../../css/ora.css">
+    <link rel="stylesheet" href="../../css/ora-login.css">
   </head>
   <body>
     <div class="ora-login" id="ora-login">

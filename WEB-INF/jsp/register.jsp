@@ -5,14 +5,15 @@
     <title>用户注册 | 橘子情感</title>
 
     <!-- import our stylesheet -->
-    <link rel="stylesheet" href="css/ora.css">
-    <link rel="stylesheet" href="css/ora-register.css">
+    <link rel="stylesheet" href="../../css/ora.css">
+    <link rel="stylesheet" href="../../css/ora-register.css">
 
     <!-- import third-party javascript -->
-    <script src="js/jq/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script src="../../js/jq/jquery-3.2.1.min.js" charset="utf-8"></script>
 
     <!-- import our javascript -->
-    <script src="js/ora-register.js" charset="utf-8"></script>
+    <script src="../../js/ora-register.js" charset="utf-8"></script>
+    <script src="../../js/ora-register.checkbirthday.js" charset="utf-8"></script>
 
     <script type="text/javascript">
       $(function () {
@@ -74,7 +75,7 @@
           <!-- Start : 生日 -->
           <div class="ora-register-main-birthday">
             <span class="text-right">生日：</span>
-            <input class="hidden" type="text" name="ubirthday" value="">
+            <input type="hidden" name="ubirthday" value="">
             <div class="ora-register-main-birthday-choice">
               <span class="text-center ora-register-main-birthday-choice-year">年</span>
               <span class="text-center ora-register-main-birthday-choice-month">月</span>
@@ -163,6 +164,7 @@
               </div>
             </div>
             <div class="ora-register-main-birthday-day">
+              <!--
               <span>01</span>
               <span>02</span>
               <span>03</span>
@@ -194,6 +196,7 @@
               <span>29</span>
               <span>30</span>
               <span>31</span>
+              -->
             </div>
           </div>
           <!-- End : 生日 -->
@@ -245,6 +248,10 @@
           <a href="${pageContext.request.contextPath}/login">立即登陆</a>
           -->
           <a href="./login.jsp">立即登陆</a>
+        </div>
+        <div class="ora-register-main-tip">
+          <span class="ora-register-main-tip-birthday-year">请选择年份!</span>
+          <span class="ora-register-main-tip-birthday-month">请选择月份!</span>
         </div>
       </div>
     </div>

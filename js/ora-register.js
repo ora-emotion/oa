@@ -1,5 +1,5 @@
 /*
- * ora-login.js
+ * ora-register.js
  * 用户注册模块
 */
 
@@ -20,7 +20,7 @@ var register = (function () {
     setJqueryMap,  checkLeapYear,
     checkusermark, checkusername, checkpassword, checkname,   checkphonenum,
     checkwechat,   checkidnum,    checkquestion, checkanswer, checkbirthday,
-    checkinfo, onClick, initModule;
+    checkinfo,     onClick, initModule;
 
   setJqueryMap = function () {
     var $register = stateMap.$register;
@@ -30,13 +30,6 @@ var register = (function () {
       $birthday : $register.find('.ora-register-main-birthday')
     };
   };
-
-  // Start  : checkLeapYear()
-  // des    : 检查年份是否为闰年
-  // return : true - 闰年(is_leap_year), false - 平年(is_nonleap_year)
-  //
-  checkLeapYear = function () {};
-  // End : checkLeapYear()
 
   // Start : checkusermark()
   // des   :
@@ -71,109 +64,6 @@ var register = (function () {
   //
   checkname = function () {};
   // End : checkname()
-
-  // Start : checkbirthday()
-  // des   :
-  //   * 验证生日
-  //   * 1993/03/11
-  //   * 月份和日不足 2 位，前面补 0
-  //
-  checkbirthday = function () {
-    var
-      $register,   $birthday,
-      $year,       $month,       $day,
-      $year_group, $month_group, $day_group,
-      $year_item,  $month_item,  $day_item,
-      year_text,   month_text,   day_text,
-      showYear,    showMonth,    showDay,
-      hideAll;
-
-    $register    = jqueryMap.$register;
-    $birthday    = jqueryMap.$birthday;
-    $year        = $birthday.find('.ora-register-main-birthday-choice-year');
-    $month       = $birthday.find('.ora-register-main-birthday-choice-month');
-    $day         = $birthday.find('.ora-register-main-birthday-choice-day');
-    $year_group  = $birthday.find('.ora-register-main-birthday-year');
-    $month_group = $birthday.find('.ora-register-main-birthday-month');
-    $day_group   = $birthday.find('.ora-register-main-birthday-day');
-    $year_item   = $birthday.find('.year-item');
-    $month_item  = $birthday.find('.ora-register-main-birthday-month-item span');
-    $day_item    = $birthday.find('.ora-register-main-birthday-day span');
-
-    showYear = function () {
-      $($year).addClass('active');
-      $($year_group).addClass('active');
-      $($month).removeClass('active');
-      $($month_group).removeClass('active');
-      $($day).removeClass('active');
-      $($day_group).removeClass('active');
-    };
-
-    showMonth = function () {
-      $($month).addClass('active');
-      $($month_group).addClass('active');
-      $($year).removeClass('active');
-      $($year_group).removeClass('active');
-      $($day).removeClass('active');
-      $($day_group).removeClass('active');
-    };
-
-    showDay = function () {
-      $($day).addClass('active');
-      $($day_group).addClass('active');
-      $($year).removeClass('active');
-      $($year_group).removeClass('active');
-      $($month).removeClass('active');
-      $($month_group).removeClass('active');
-    };
-
-    hideAll = function () {
-      $($year).removeClass('active');
-      $($year_group).removeClass('active');
-      $($month).removeClass('active');
-      $($month_group).removeClass('active');
-      $($day).removeClass('active');
-      $($day_group).removeClass('active');
-    };
-
-    $register.click(function (event) {
-      var target;
-
-      event = event || window.event;
-      target = event.target;
-
-      switch ( $(target)[0] ) {
-        case $($year)[0] :
-          showYear();
-          break;
-        case $($month)[0] :
-          showMonth();
-          break;
-        case $($day)[0] :
-          showDay();
-          break;
-        default:
-          hideAll();
-          break;
-      }
-    });
-
-    $year_item.click(function () {
-      year_text = $(this).text();
-      $year.text(year_text);
-    });
-
-    $month_item.click(function () {
-      month_text = $(this).text();
-      $month.text(month_text);
-    });
-
-    $day_item.click(function () {
-      day_text = $(this).text();
-      $day.text(day_text);
-    });
-  };
-  // End : checkbirthday()
 
   // Start : checkphonenum()
   // des   :
@@ -222,14 +112,15 @@ var register = (function () {
   // Start : onClick()
   // des   : 点击事件处理程序
   //
-  onClick = function () {
-    checkbirthday();
-  };
+  onClick = function () {};
   // End : onClick()
 
   initModule = function ($register) {
     stateMap.$register = $register;
     setJqueryMap();
+
+    // 验证出生年月模块
+    register.checkbirthday.initModule( jqueryMap.$birthday );
 
     checkinfo();
     onClick();
