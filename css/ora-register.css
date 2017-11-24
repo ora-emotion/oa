@@ -173,11 +173,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px solid #fca12f;
+    border-radius: 6px;
     position: absolute;
     top: 41px;
     left: 124px;
-    border: 1px solid #fca12f;
-    border-radius: 6px;
+    z-index: 1;
   }
   .ora-register-main-birthday-month-item {
     cursor: default;
@@ -290,6 +291,63 @@
   top: 0;
   left: 0;
 }
+  /* Start : 员工编号 */
+  .ora-register-main-tip-mark {
+    display: none;
+  }
+  .ora-register-main-tip-mark.active {
+    display: block;
+    position: absolute;
+    top: 82px;
+    left: 124px;
+    width: 278px;
+    background: #fff;
+    padding: 5px 10px;
+    border: 1px solid #fca12f;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px #ffc479;
+  }
+  .ora-register-main-tip-mark span {
+    width: 100%;
+    font-size: 12px;
+    color: #fd3232;
+    margin: 0;
+  }
+  .ora-register-main-tip-mark span.pass {
+    color: green;
+  }
+  /* End : 员工编号 */
+
+  /* Start : 验证用户名提示信息 */
+  .ora-register-main-tip-username {
+    display: none;
+  }
+  .ora-register-main-tip-username.active {
+    position: absolute;
+    top: 131px;
+    left: 124px;
+    width: 278px;
+    padding: 5px 10px;
+    background: #fff;
+    border: 1px solid #fca12f;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px #ffc479;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .ora-register-main-tip-username span {
+    width: 100%;
+    font-size: 12px;
+    color: #fd3232;
+    margin: 2px 0;
+  }
+  .ora-register-main-tip-username span.pass {
+    color: green;
+  }
+  /* End : 验证用户名提示信息 */
+
   /* Start : 选择年份 */
   span.ora-register-main-tip-birthday-year,
   span.ora-register-main-tip-birthday-month {
@@ -362,7 +420,36 @@
     color: #fd3232;
     margin: 0;
   }
+  .ora-register-main-tip-confirmpwd span.pass {
+    color: green;
+  }
   /* End : 确认密码提示信息 */
+
+  /* Start : 验证姓名提示信息 */
+  .ora-register-main-tip-name {
+    display: none;
+  }
+  .ora-register-main-tip-name.active {
+    display: block;
+    position: absolute;
+    top: 278px;
+    left: 124px;
+    width: 278px;
+    padding: 5px 10px;
+    background: #fff;
+    border: 1px solid #fca12f;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px #ffc479;
+  }
+  .ora-register-main-tip-name span {
+    font-size: 12px;
+    color: #fd3232;
+    margin: 0;
+  }
+  .ora-register-main-tip-name span.pass {
+    color: green;
+  }
+  /* End : 验证姓名提示信息 */
 
   /* Start : 验证手机号码提示信息 */
   .ora-register-main-tip-phone {
@@ -384,6 +471,9 @@
     font-size: 12px;
     color: #fd3232;
     margin: 0;
+  }
+  .ora-register-main-tip-phone span.pass {
+    color: green;
   }
   /* End : 验证手机号码提示信息 */
 
@@ -408,6 +498,9 @@
     color: #fd3232;
     margin: 0;
   }
+  .ora-register-main-tip-idnum span.pass {
+    color: green;
+  }
   /* End : 验证身份证号码提示信息 */
 
   /* Start : 验证密保答案提示信息 */
@@ -430,6 +523,9 @@
     font-size: 12px;
     color: #fd3232;
     margin: 0;
+  }
+  .ora-register-main-tip-question span.pass {
+    color: green;
   }
   /* End : 验证密保答案提示信息 */
 

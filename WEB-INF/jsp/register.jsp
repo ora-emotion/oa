@@ -27,8 +27,8 @@
         <form class="" action="register.jsp" method="get">
           <!-- Start : 员工编号 -->
           <div class="ora-register-main-mark">
-            <span class="text-right">用户编号：</span>
-            <input type="text" name="mark" value="" placeholder="请输入用户编号">
+            <span class="text-right">员工编号：</span>
+            <input type="text" name="ccode" value="" placeholder="请输入员工编号">
           </div>
           <!-- End : 员工编号 -->
 
@@ -64,7 +64,7 @@
           <div class="ora-register-main-sex">
             <span class="text-right">性别：</span>
             <label for="male">
-              <input id="male" type="radio" name="usex" value="男"> 男
+              <input id="male" type="radio" name="usex" value="男" checked> 男
             </label>
             <label for="female">
               <input id="female" type="radio" name="usex" value="女"> 女
@@ -225,6 +225,16 @@
         <div class="ora-register-main-tip">
           <span class="ora-register-main-tip-birthday-year">请选择年份!</span>
           <span class="ora-register-main-tip-birthday-month">请选择月份!</span>
+
+          <div class="ora-register-main-tip-mark">
+            <span>请输入 8 位员工编号</span>
+          </div>
+          <div class="ora-register-main-tip-username">
+            <span class="username-min-length">用户名最少为 6 位</span>
+            <span class="username-max-length">用户名最大为 12 位</span>
+            <span class="username-no-space">用户名首尾不包含空格</span>
+            <span class="username-letter-num">用户名为英文/数字/英文与数字的组合</span>
+          </div>
           <div class="ora-register-main-tip-checkpassword">
             <span class="password-min-length">密码长度大于 8 位</span>
             <span class="password-max-length">密码长度小于 16 位</span>
@@ -233,11 +243,14 @@
           <div class="ora-register-main-tip-confirmpwd">
             <span>您输入的密码不匹配</span>
           </div>
+          <div class="ora-register-main-tip-name">
+            <span>姓名不能为空</span>
+          </div>
           <div class="ora-register-main-tip-phone">
             <span>请输入有效的手机号码</span>
           </div>
           <div class="ora-register-main-tip-idnum">
-            <span>请输入有效身份证号嘛</span>
+            <span>请输入有效身份证号码</span>
           </div>
           <div class="ora-register-main-tip-question">
             <span>密保答案不能为空</span>

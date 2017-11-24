@@ -361,5 +361,5 @@ register.checkbirthday = (function () {
 
   };
 
-  return { initModule : initModule };
+  return { initModule : initModule, dateFormat : dateFormat };
 }());

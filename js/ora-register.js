@@ -18,8 +18,9 @@ var register = (function () {
     jqueryMap = {},
 
     setJqueryMap,  checkLeapYear,
-    checkusermark, checkusername, checkpassword, checkphonenum,
-    checkidnum,    checkbirthday, checkquestion, checkinfo,     onClick,     initModule;
+    checkusermark, checkusername, checkpassword, checkname, checkphonenum,
+    checkidnum,    checkbirthday, checkquestion, checkinfo, onClick,
+    initModule;
 
   setJqueryMap = function () {
     var $register = stateMap.$register;
@@ -29,6 +30,7 @@ var register = (function () {
       $mark       : $register.find('.ora-register-main-mark'),
       $username   : $register.find('.ora-register-main-username'),
       $password   : $register.find('.ora-register-main-password'),
+      $name       : $register.find('.ora-register-main-name'),
       $confirmpwd : $register.find('.ora-register-main-confirmpwd'),
       $birthday   : $register.find('.ora-register-main-birthday'),
       $phone      : $register.find('.ora-register-main-phone'),
@@ -43,15 +45,27 @@ var register = (function () {
   //   * 验证员工编号
   //   * 用户编号只能为数字
   // return :
-  //   * true  - 用户编号为 number 类型，可提交
-  //   * false - 用户编号为 NaN 类型，不可提交
+  //   * true  - 员工编号为 number 类型，可提交
+  //   * false - 员工编号为 NaN 类型，不可提交
   //
   checkusermark = function () {
-    var $mark, mark_val;
-    $mark = jqueryMap.$mark;
-    mark_val = $mark.find('input').val();
+    var $mark, $mark_tip, mark_val;
 
-    if (!parseInt(mark_val, 10)) {
+    $mark     = jqueryMap.$mark;
+    $mark_tip = $('.ora-register-main-tip-mark');
+    mark_val  = $mark.find('input').val();
+
+    $mark.find('input').focus(function () {
+      $mark_tip.addClass('active');
+    });
+    $mark.find('input').blur(function () {
+      $mark_tip.removeClass('active');
+    });
+
+    if ( /^[0-9]{8}$/.test(mark_val) ) {
+      $mark_tip.find('span').addClass('pass');
+    } else {
+      $mark_tip.find('span').removeClass('pass');
       return false;
     }
 
@@ -62,7 +76,7 @@ var register = (function () {
   // Start : checkusername()
   // des   :
   //   * 验证用户名
-  //   * 首字符不能为数字
+  //   * 首字符可以为数字
   //   * 只能为英文或数字
   //   * 最少 6 字符，最多 12 字符
   // return :
@@ -70,18 +84,51 @@ var register = (function () {
   //   * false - 不符合规则，不可提交
   //
   checkusername = function () {
-    var $username, username_val, i;
-    $username = jqueryMap.$username;
-    username_val = $username.find('input').val();
+    var $username, $username_tip, username_val, i;
 
-    if (username_val.length < 6 || username_val.length > 12) {
+    $username     = jqueryMap.$username;
+    $username_tip = $('.ora-register-main-tip-username');
+    username_val  = $username.find('input').val();
+
+    $username.find('input').focus(function () {
+      $username_tip.addClass('active');
+    });
+    $username.find('input').blur(function () {
+      $username_tip.removeClass('active');
+    });
+
+    // 用户名只能为英文或英文与数字的组合
+    if ( /^[a-zA-Z0-9\s]+$/.test(username_val) ) {
+      $username_tip.find('.username-letter-num').addClass('pass');
+    } else {
+      $username_tip.find('.username-letter-num').removeClass('pass');
       return false;
     }
 
-    for (i = 0; i < username_val.length; i++) {
-      if ( !(/\w/.test(username_val[i]) && /[^0-9]/.test(username_val[0])) ) {
-        return false;
-      }
+    // 用户名首尾不包含空格
+    if ( username_val.charAt([username_val.length - 1]) === ' ' || username_val.charAt(0) === ' ' ) {
+      $username_tip.find('.username-no-space').removeClass('pass');
+      return false;
+    } else {
+      $username_tip.find('.username-no-space').addClass('pass');
+    }
+
+
+
+    // 用户名最多为 12 位
+    if (username_val.length > 12) {
+      $username_tip.find('.username-max-length').removeClass('pass');
+      return false;
+    } else {
+      $username_tip.find('.username-max-length').addClass('pass');
+    }
+
+    // 用户名最少为 6 位
+    if (username_val.length < 6) {
+      $username_tip.find('.username-min-length').removeClass('pass')
+      return false;
+    } else {
+      $username_tip.find('.username-min-length').addClass('pass');
     }
 
     return true;
@@ -91,7 +138,6 @@ var register = (function () {
   // Start : checkpassword()
   // des   :
   //   * 验证密码
-  //   * 首字符不能为数字
   //   * 不包含空格且首尾不能为空格（不能包含空格）
   //   * 最少 8 字符，最多 16 字符
   // return :
@@ -101,7 +147,7 @@ var register = (function () {
   checkpassword = function () {
     var
       $password,    $password_tip,  $confirmpwd, $confirmpwd_tip,
-      password_val, confirmpwd_val, i;
+      password_val, confirmpwd_val, i, j;
 
     $password       = jqueryMap.$password;
     $confirmpwd     = jqueryMap.$confirmpwd;
@@ -109,6 +155,8 @@ var register = (function () {
     $confirmpwd_tip = $('.ora-register-main-tip-confirmpwd');
     password_val    = $password.find('input').val();
     confirmpwd_val  = $confirmpwd.find('input').val();
+
+    console.log(password_val);
 
 
     // 显示验证密码提示信息
@@ -119,9 +167,19 @@ var register = (function () {
     $password.find('input').blur(function () {
       $password_tip.removeClass('active');
     });
+    // 显示确认密码验证信息
+    $confirmpwd.find('input').focus(function () {
+      $confirmpwd_tip.addClass('active');
+    });
+    // 隐藏确认密码验证信息
+    $confirmpwd.find('input').blur(function () {
+      $confirmpwd_tip.removeClass('active');
+    });
 
+
+
+    // 密码不能包含空格
     for (i = 0; i < password_val.length; i++) {
-      // 密码不能包含空格
       if ( /\s/.test(password_val.charAt(i)) ) {
         $('.password-no-space').removeClass('pass');
         return false;
@@ -131,9 +189,12 @@ var register = (function () {
       }
     }
 
+
+
     // 验证密码最大长度
     if (password_val.length > 16) {
       $('.password-max-length').removeClass('pass');
+      $confirmpwd_tip.find('span').removeClass('pass');
       return false;
     } else {
       $('.password-max-length').addClass('pass');
@@ -148,18 +209,60 @@ var register = (function () {
     }
 
     // 确认密码
-    $confirmpwd.find('input').blur(function () {
-      if (password_val !== confirmpwd_val) {
-        $confirmpwd_tip.addClass('active');
-        return false;
+    for (j = 0; j < password_val.length; j++) {
+      if (
+        password_val.charAt(j) === confirmpwd_val.charAt(j) &&
+        password_val.length === confirmpwd_val.length &&
+        password_val.length <= 16
+      ) {
+        $confirmpwd_tip.find('span').addClass('pass');
       } else {
-        $confirmpwd_tip.removeClass('active');
+        $confirmpwd_tip.find('span').removeClass('pass');
+        return false;
       }
-    });
+    }
 
     return true;
   };
   // End : checkpassword()
+
+  // Start : checkname()
+  // des   :
+  // return :
+  //   * true  - 符合规则，可提交
+  //   * false - 不符合规则，不可提交
+  //
+  checkname = function () {
+    var $name, $name_tip, name_val;
+
+    $name     = jqueryMap.$name;
+    $name_tip = $('.ora-register-main-tip-name');
+    name_val  = $name.find('input').val();
+
+    $name.find('input').focus(function () {
+      $name_tip.addClass('active');
+    });
+    $name.find('input').blur(function () {
+      $name_tip.removeClass('active');
+    });
+
+    // 姓名不能为空
+    if (name_val === '') {
+      $name_tip.find('span').removeClass('pass');
+      return false;
+    }
+
+    // 姓名不能为空格
+    if ( /^\s+$/.test(name_val) ) {
+      $name_tip.find('span').removeClass('pass');
+      return false;
+    }
+
+    $name_tip.find('span').addClass('pass');
+
+    return true;
+  };
+  // End : checkname()
 
   // Start : checkphonenum()
   // des   :
@@ -176,15 +279,20 @@ var register = (function () {
     $phone_tip = $('.ora-register-main-tip-phone');
     phone_val  = $phone.find('input').val();
 
-    // 验证手机号码号段及长度
-    $phone.find('input').blur(function (){
-      if ( ! /^1[34578][0-9]\d{4,8}$/.test(phone_val) ) {
-        $phone_tip.addClass('active');
-        return false;
-      } else {
-        $phone_tip.removeClass('active');
-      }
+    $phone.find('input').focus(function () {
+      $phone_tip.addClass('active');
     });
+    $phone.find('input').blur(function () {
+      $phone_tip.removeClass('active');
+    });
+
+    // 验证手机号码号段及长度
+    if ( /^1[34578][0-9]\d{8}$/.test(phone_val) ) {
+      $phone_tip.find('span').addClass('pass');
+    } else {
+      $phone_tip.find('span').removeClass('pass');
+      return false;
+    }
 
     return true;
   };
@@ -203,15 +311,20 @@ var register = (function () {
     $idnum_tip = $('.ora-register-main-tip-idnum');
     idnum_val  = $idnum.find('input').val();
 
-    $idnum.find('input').blur(function () {
-      // 判断身份证号长度 - 18 位
-      if ( ! /^[0-9][\d|X]{17}$/.test(idnum_val) ) {
-        $idnum_tip.addClass('active');
-        return false;
-      } else {
-        $idnum_tip.removeClass('active');
-      }
+    $idnum.find('input').focus(function () {
+      $idnum_tip.addClass('active');
     });
+    $idnum.find('input').blur(function () {
+      $idnum_tip.removeClass('active');
+    });
+
+    // 判断身份证号长度 - 18 位
+    if ( /^[0-9][\d|X]{17}$/.test(idnum_val) ) {
+      $idnum_tip.find('span').addClass('pass');
+    } else {
+      $idnum_tip.find('span').removeClass('pass');
+      return false;
+    }
 
     return true;
   };
@@ -230,15 +343,20 @@ var register = (function () {
     $question_tip = $('.ora-register-main-tip-question');
     question_val  = $question.find('input').val();
 
-    // 密保答案不能为空
-    $question.find('input').blur(function () {
-      if ( question_val == ''  || question_val == null ) {
-        $('.ora-register-main-tip-question').addClass('active');
-        return false;
-      } else {
-        $('.ora-register-main-tip-question').removeClass('active');
-      }
+    $question.find('input').focus(function () {
+      $question_tip.addClass('active');
     });
+    $question.find('input').blur(function () {
+      $question_tip.removeClass('active');
+    });
+
+    // 密保答案不能为空
+    if ( question_val == ''  || question_val == null ) {
+      $question_tip.find('span').removeClass('pass');
+      return false;
+    } else {
+      $question_tip.find('span').addClass('pass');
+    }
 
     return true;
   };
@@ -251,22 +369,30 @@ var register = (function () {
     checkusermark();
     checkusername();
     checkpassword();
+    checkname();
     checkphonenum();
     checkidnum();
     checkquestion();
 
     // 提交信息
-    jqueryMap.$submit.find('button').click(function () {
-      if ( !(checkusermark() && checkUsername() && checkpassword() &&
-        checkphonenum() && checkidnum() && checkquestion())
-      ) {
+    if (
+      (checkusermark() && checkusername() && checkpassword() &&
+      checkname() && checkphonenum() && checkidnum() && checkquestion() &&
+      register.checkbirthday.dateFormat()) === false
+    ) {
+      jqueryMap.$submit.find('button').click(function () {
         $('.ora-register-main-tip-submit').addClass('active');
         return false;
-      }
-    });
+      });
+    } else {
+      jqueryMap.$submit.find('button').click(function () {
+        $('.ora-register-main-tip-submit').removeClass('active');
+        $('form').submit();
+      });
+    }
 
-    $('.ora-register-main-tip-submit').removeClass('active');
-    return true;
+
+    // return true;
   };
   // End : checkinfo()
 
