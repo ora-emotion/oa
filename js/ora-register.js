@@ -156,9 +156,6 @@ var register = (function () {
     password_val    = $password.find('input').val();
     confirmpwd_val  = $confirmpwd.find('input').val();
 
-    console.log(password_val);
-
-
     // 显示验证密码提示信息
     $password.find('input').focus(function () {
       $password_tip.addClass('active');
@@ -176,8 +173,6 @@ var register = (function () {
       $confirmpwd_tip.removeClass('active');
     });
 
-
-
     // 密码不能包含空格
     for (i = 0; i < password_val.length; i++) {
       if ( /\s/.test(password_val.charAt(i)) ) {
@@ -188,8 +183,6 @@ var register = (function () {
           .addClass('pass');
       }
     }
-
-
 
     // 验证密码最大长度
     if (password_val.length > 16) {
