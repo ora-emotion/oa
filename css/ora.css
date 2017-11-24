@@ -24,6 +24,19 @@ a {
   text-decoration: none;
 }
 
+input,
+select {
+  transition: all .3s;
+}
+input:focus,
+select:focus,
+button:focus {
+  outline: none;
+  border: 1px solid #fca12f;
+  box-shadow: 0 0 10px #ffc479;
+  border-radius: 6px;
+}
+
 ::-webkit-input-placeholder {
   color: #919191;
 }
