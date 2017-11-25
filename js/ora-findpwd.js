@@ -13,7 +13,20 @@
 
 var findpwd = (function () {
   var
-    configMap = {},
+    configMap = {
+      wrapper : {
+        height : 401
+      },
+      s01 : {
+        top    : 44,
+        opacity : 0
+      },
+      s02 : {
+        top     : 0,
+        opacity : 1
+      },
+      time : 500
+    },
     stateMap = { $findpwd : null },
     jqueryMap = {},
 
@@ -24,7 +37,10 @@ var findpwd = (function () {
 
     jqueryMap = {
       $findpwd : $findpwd,
-      $tip     : $findpwd.find('.ora-findpwd-s01-tip')
+      $wrapper : $findpwd.find('.ora-findpwd-wrapper'),
+      $tip     : $findpwd.find('.ora-findpwd-s01-tip'),
+      $s01     : $findpwd.find('.ora-findpwd-s01'),
+      $s02     : $findpwd.find('.ora-findpwd-s02')
     };
   };
 
@@ -42,6 +58,32 @@ var findpwd = (function () {
   //
   changePassword = function () {
     console.log('密保问题已确认，允许重置密码！');
+
+    jqueryMap.$wrapper.animate(
+      { height : configMap.wrapper.height },
+      configMap.time
+    );
+
+    // 调整验证密保容器
+    jqueryMap.$s01.animate(
+      {
+        top     : configMap.s01.top,
+        opacity : configMap.s01.opacity
+      },
+      configMap.time
+    );
+
+    // 调整重置密码容器
+    jqueryMap.$s02.addClass('active');
+    jqueryMap.$s02.animate(
+      {
+        top     : configMap.s02.top,
+        opacity : configMap.s02.opacity
+      },
+      configMap.time
+    );
+
+    jqueryMap.$s02.addClass('active');
   };
   // End : changePassword()
 
